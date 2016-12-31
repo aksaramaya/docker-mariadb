@@ -11,12 +11,12 @@ RUN		apt-get update -qq && \
 		apt-get upgrade --yes && \
 		apt-get -y --no-install-recommends --no-install-suggests install host socat unzip ca-certificates wget curl python-software-properties && \
 		apt-get clean autoclean && \
-		apt-get autoremove --yes && \ 
+		apt-get autoremove --yes && \
 		rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 # install percona tools
-RUN	        apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A && \
-		echo "deb http://repo.percona.com/apt jessie main" >>/etc/apt/sources.list && \	
+RUN	        apt-key adv --keyserver keys.gnupg.net --recv-keys 8507EFA5 && \
+		echo "deb http://repo.percona.com/apt jessie main" >>/etc/apt/sources.list && \
 		apt-get update -qq && \
 		apt-get -y install percona-toolkit percona-xtrabackup && \
 		apt-get clean autoclean && \
@@ -28,11 +28,11 @@ ENV		MARIADB_VERSION 10.1.14
 
 # install mariadb
 RUN		apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db && \
-		echo "deb http://ftp.osuosl.org/pub/mariadb/repo/${MARIADB_MAJOR}/debian jessie main" >>/etc/apt/sources.list && \	
+		echo "deb http://ftp.osuosl.org/pub/mariadb/repo/${MARIADB_MAJOR}/debian jessie main" >>/etc/apt/sources.list && \
 		apt-get update -qq && \
 		apt-get -y install mariadb-server-${MARIADB_MAJOR}="${MARIADB_VERSION}+maria-1~jessie" mariadb-client-${MARIADB_MAJOR}="${MARIADB_VERSION}+maria-1~jessie" && \
 		apt-get clean autoclean && \
-		apt-get autoremove --yes && \ 
+		apt-get autoremove --yes && \
 		rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
 		rm -rf /var/lib/mysql && \
 		mkdir /var/lib/mysql && \
@@ -44,7 +44,7 @@ ENV		GALERA_VERSION 25.3.15
 RUN		apt-get update -qq && \
 		apt-get -y install galera-arbitrator-3="${GALERA_VERSION}-jessie" galera-3="${GALERA_VERSION}-jessie" && \
 		apt-get clean autoclean && \
-		apt-get autoremove --yes && \ 
+		apt-get autoremove --yes && \
 		rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 # add configuration
