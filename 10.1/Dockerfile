@@ -20,11 +20,11 @@ RUN	        apt-key adv --keyserver keys.gnupg.net --recv-keys 8507EFA5 && \
 		apt-get update -qq && \
 		apt-get -y install percona-toolkit percona-xtrabackup && \
 		apt-get clean autoclean && \
-		apt-get autoremove --yes && \ 
+		apt-get autoremove --yes && \
 		rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 ENV		MARIADB_MAJOR 10.1
-ENV		MARIADB_VERSION 10.1.14
+ENV		MARIADB_VERSION 10.1.20
 
 # install mariadb
 RUN		apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db && \
@@ -56,7 +56,7 @@ ADD		conf.d/galera.cnf /etc/mysql/conf.d/galera.cnf
 # 4568 - For Incremental State Transfers
 # 4444 - For all other State Snapshot Transfers
 
-EXPOSE		3306 4444 4567 4568
+EXPOSE		3306 4444 4567/tcp 4567/udp 4568
 
 VOLUME		["/var/lib/mysql"]
 COPY		docker-entrypoint.sh /entrypoint.sh
