@@ -10,6 +10,10 @@ if [ -n "$TIMEZONE" ]; then
 	dpkg-reconfigure -f noninteractive tzdata
 fi
 
+if [ ! -n "$NODE_NAME" ]; then
+	NODE_NAME=$(hostname)	
+fi
+
 # apply environment configuration
 sed -i -e "s/^port.*=.*/port=${PORT}/" /etc/mysql/my.cnf 
 sed -i -e "s/^#max_connections.*=.*/max_connections=${MAX_CONNECTIONS}/" /etc/mysql/my.cnf 
