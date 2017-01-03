@@ -129,6 +129,8 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 fi
 }
 
+IP=$(hostname --ip-address | cut -d" " -f1)
+
 if [ -z ${CLUSTER+x} ]; then
     echo >&2 "########### CLUSTER variable must be defined as STANDALONE, BOOTSTRAP or a comma-separated list of container names."
     exit 1
@@ -143,7 +145,7 @@ elif [ ${CLUSTER} = "BOOTSTRAP" ]; then
     echo "########### Starting MariaDB cluster..."
     # Workaround odd bug(?) causing corrupted binlog index after initialization
     mv /var/lib/mysql/mysql-bin.index /tmp
-    exec $@ --wsrep_node_address="${HOSTNAME}" \
+    exec $@ --wsrep_node_address="${IP}" \
     --wsrep_cluster_name="${CLUSTER_NAME}" \
     --wsrep_new_cluster --wsrep_cluster_address="gcomm://" \
     --wsrep_node_name="${HOSTNAME}" \
@@ -152,7 +154,7 @@ else
     echo "########### Joining MariaDB cluster ${CLUSTER_NAME} on nodes ${CLUSTER}..."
     preflight
     initialize_db $@
-    exec $@ --wsrep_node_address="${HOSTNAME}" \
+    exec $@ --wsrep_node_address="${IP}" \
     --wsrep_cluster_name="${CLUSTER_NAME}" \
     --wsrep_cluster_address="gcomm://${CLUSTER}" \
     --wsrep_node_name="${HOSTNAME}" \

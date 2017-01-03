@@ -18,6 +18,6 @@ RUN rm -rf /var/lib/mysql && mkdir /var/lib/mysql
 COPY config/server.cnf /etc/my.cnf.d/server.cnf
 COPY scripts/docker-entrypoint.sh /docker-entrypoint.sh
 
-EXPOSE 3306
+EXPOSE	3306 4444 4567/tcp 4567/udp 4568
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["mysqld"]
